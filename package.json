@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "type-coverage": "type-coverage"
+  },
   "devDependencies": {
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "type-coverage": "^2.17.5"
   }
 }

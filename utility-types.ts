@@ -49,7 +49,7 @@ console.log(emailName({ name: "ads" }));
 // output : { name: 'ads' } you can provide both also name & email
 
 // Record <Key, yourOutputeType>
-const mapById = (users: User[]): Record<string, User> => {
+const mapById = (users: User[]): Record<number, User> => {
   return users.reduce((acc, val) => {
     return {
       ...acc,
@@ -58,12 +58,12 @@ const mapById = (users: User[]): Record<string, User> => {
   }, {});
 };
 
-// console.log(
-//   mapById([
-//     { id: "1", name: "sea" },
-//     { id: "2", name: "salt" },
-//   ])
-// );
+console.log(
+  mapById([
+    { id: 1, name: "sea" },
+    { id: 2, name: "salt" },
+  ])
+);
 // output: { '1': { id: '1', name: 'sea' }, '2': { id: '2', name: 'salt' } };
 // note here we have same id pointing to a obj with same id
 
