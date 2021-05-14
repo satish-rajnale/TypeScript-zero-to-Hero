@@ -1,8 +1,6 @@
 import houses from "./houses.json";
 import { House } from "./interfaces/interface";
 
-
-
 // interface HouseWithID {
 //     id : number;
 //     name: string;
@@ -18,6 +16,7 @@ interface HouseWithID extends House {
 //   houses: string,
 //   filter: (house: House) => boolean
 // ): HouseWithID[];
+
 // function findHouses(houses: House[]): HouseWithID[];
 // function findHouses(
 //   houses:House[],
@@ -36,19 +35,18 @@ function findHouses(
 
 function findHouses(
   input: string | House[],
-  filter?: (house: House) => boolean
+  filterer?: (house: House) => boolean
 ): HouseWithID[] {
-  const localHouses: House[] =
-    typeof input === "string" ? JSON.parse(input) : input;
 
-  return (filter ? localHouses.filter(filter) : localHouses).map((house) => ({
+
+const localHouses: House[] = (typeof input === "string") ? JSON.parse(input) : input;
+
+  return (filterer ? localHouses.filter(filterer) : localHouses).map((house) => ({
     id: localHouses.indexOf(house),
     ...house,
   }));
 }
 
-console.log(
-  findHouses(JSON.stringify(houses), ({ name }) => name === "Atreides")
-);
+console.log( findHouses(JSON.stringify(houses), ({ name }) => name === "Viscott"));
 
-console.log(findHouses(houses, ({ name }) => name === "Harkonnen"));
+console.log( findHouses(houses, ({ name }) => name === "NObless"));
