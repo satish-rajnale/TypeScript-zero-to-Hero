@@ -61,3 +61,25 @@ smallDB.set("1", "Berserk");
 console.log(smallDB.get("1"));
 smallDB.set("2", "Hataraku Maou")
 console.log(smallDB.getObject());
+
+
+///////// creating a mixin ////////
+type MyConstructor<T> = new (...args: any[]) => T;
+
+//                                    here { }  around getObject are important
+function Dumpable<T extends MyConstructor< {getObject() : object} >>(BaseClass: T){
+    return class Dumpable extends BaseClass{
+        dump(){
+            console.log(this.getObject())
+        }
+    }
+}
+
+
+const DumpableString = Dumpable(stringDatabase);
+const smallDB2 = new DumpableString();
+
+
+
+smallDB2.set("name", "Cardi")
+console.log(smallDB2.dump());
