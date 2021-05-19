@@ -53,3 +53,31 @@ class EventProcessor<T extends {}> {
     return this.processed;
   }
 }
+
+interface EventMap {
+    login : {user?:string , name?:string, hasSession?:boolean};
+    logout: {user?:string}
+}
+
+class UserEventProcessor extends EventProcessor<EventMap> {}
+
+const uep = new UserEventProcessor();
+uep.addFilter("login", ({ user }) => Boolean(user));
+uep.addMap("login", (data) => ({
+  ...data,
+  hasSession: Boolean(data.user && data.name),
+}));
+
+uep.handleEvent("login", {
+  user: undefined,
+  name: "jack",
+});
+uep.handleEvent("login", {
+  user: "tom",
+  name: "tomas",
+});
+uep.handleEvent("logout", {
+  user: "tom",
+});
+
+console.log(uep.getProcessedEvents());
