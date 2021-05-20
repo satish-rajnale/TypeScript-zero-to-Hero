@@ -9,17 +9,20 @@ interface PokemonResults {
         url: string;
     }[];
 }
+// removed this line and created an override for fetchPokemon
+// type fetchPokemonResult<T> = T extends undefined ?void :  Promise<PokemonResults> ; 
 
-type fetchPokemonResult<T> = T extends undefined ?void :  Promise<PokemonResults> ; 
+function fetchPokemon(url: string , cb : (data:PokemonResults) => void) : void;
+function fetchPokemon(url: string ) : Promise<PokemonResults>;
 
-function fetchPokemon<T extends undefined | ((data: PokemonResults) => void)>(url: string , cb? :T) : fetchPokemonResult<T>{
+function fetchPokemon(url: string , cb? :(data: PokemonResults) => void) : unknown{
     if(cb){
         fetch(url)
             .then(resp => resp.json())
             .then(cb);
-        return undefined as  fetchPokemonResult<T> 
+        return undefined; 
     }else {
-        return fetch(url).then(res => res.json()) as  fetchPokemonResult<T>;
+        return fetch(url).then(res => res.json());
     }
 };
 
