@@ -1,2 +1,4 @@
 # TypeScript-zero-to-Hero
  Typescript all use cases and definations that I learn
+
+Typescript as the name suggests adds types to your code. 
