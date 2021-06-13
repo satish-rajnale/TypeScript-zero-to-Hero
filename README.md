@@ -6,3 +6,6 @@ For example : javascript is not a type defined language but by using typescript 
 
 Typescript is not only limited to javascript. You can use it with language or framework to make your code more robust and bug free.
 Typescript aims at providing long term gain for small constribution in type defining your code.
+
+
+Typescript can be added by using npm and including a typeconfig.js file in you project files.
