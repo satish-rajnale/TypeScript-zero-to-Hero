@@ -8,4 +8,4 @@ Typescript is not only limited to javascript. You can use it with language or fr
 Typescript aims at providing long term gain for small constribution in type defining your code.
 
 
-Typescript can be added by using npm and including a typeconfig.js file in you project files.
+Typescript can be added by using npm and including a typeconfig.js file in you project files.Just make sure anything you use like react or node or any external modules must have a proper supportive type defined dependancy added in package.json file.
