@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "author":"Satish rajnale",
   "scripts": {
-    "type-coverage": "type-coverage"
+    "type-coverage": "type-coverage",
+    "execute-a-file":"npx ts-node FILENAME"
   },
   "devDependencies": {
     "ts-node": "^9.1.1",
