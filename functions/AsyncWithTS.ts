@@ -1,84 +1,27 @@
-import fetch from "node-fetch";
+
 import PromisePool from "@supercharge/promise-pool"
-interface PokemonResults {
-    count: number;
-    next?: string;
-    previous?: string;
-    results: {
-        name: string;
-        url: string;
-    }[];
-}
-
-interface Pokemon {
-    id: number;
-    name: string;
-    stats: {
-        base_stat: Number;
-        effort: Number;
-        stat:{
-            name: string;
-            url: string;
-        }
-        
-    }[];
-}
-
-// const pokedata = fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
-//                         .then((res) => res.json())
-//                         .then((data : PokemonResults) => data)
-//                         .then((data) => fetch("https://pokeapi.co:5000/api/v2/pokemon?limit=10")//data.results[0].url
-//                                 .then((res) => res.json())
-//                                 .then((data) => console.log(data.stats))
-//                                 )
-//                         .catch(err => console.error("handeled by outer::",err));
-//so you would get a cascade of multiple nested fetch functions and thi is not a particularly pleasant way to code
-
-//then we will be using async await
+import {getFirstPokemon,getPokeList,getPokemon} from "../src/getPokemon";
 
 
 
-const getPokeList = async () : Promise<PokemonResults> => {
-    const ListPokeres = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10");
-return await ListPokeres.json();
-}
+// (async function(){
+//     try{
+//       const pokemonPromise = await  getFirstPokemon();
+//       const pokemon = await pokemonPromise;
+//      //   console.log(pokemon.name);
 
-const getPokemon = async (url: string) : Promise<Pokemon> => {
-    const data = await fetch(url);
-return await data.json();
-}
+//         const pokemon2 = await  pokemonPromise;
+//      //   console.log(pokemon2.name);
+// // here same promise returned by getFirstPokemon is called twice but we get output as:
+// //output::  // getting the list!!
+//             // bulbasaur
+//             // bulbasaur
+// //notive that getting the list is only output once..
+// //that is because the promise is already fulfilled and we sort of get cached value
 
-const getFirstPokemon = async (): Promise<Pokemon> => 
-    new Promise(async (resolve , reject) => {
-        try{
-            console.log("getting the list!!");
-            const list: PokemonResults = await getPokeList();
-            resolve(await getPokemon(list.results[0].url));
-        }catch(err){
-            reject(err);
-        }
-    });
-
-
-
-(async function(){
-    try{
-      const pokemonPromise = await  getFirstPokemon();
-      const pokemon = await pokemonPromise;
-     //   console.log(pokemon.name);
-
-        const pokemon2 = await  pokemonPromise;
-     //   console.log(pokemon2.name);
-// here same promise returned by getFirstPokemon is called twice but we get output as:
-//output::  // getting the list!!
-            // bulbasaur
-            // bulbasaur
-//notive that getting the list is only output once..
-//that is because the promise is already fulfilled and we sort of get cached value
-
-    }catch(err){
-    console.error(err);
-}})();
+//     }catch(err){
+//     console.error(err);
+// }})();
 
 (async function(){
     try{
@@ -111,14 +54,17 @@ const getFirstPokemon = async (): Promise<Pokemon> =>
     //     console.log(">> Done")
 
         // using promise pooling
+        console.time();
         const {results, errors} = await PromisePool 
-                                        .withConcurrency(2)
+                                        .withConcurrency(10)
                                         .for(list.results)
                                         .process(async data => { //cmd k + i on data to see its type def
-                                            const pokemon = await getPokemon(data.url);
-                                            return pokemon;
-                                        })
-
+                                            return await getPokemon(data.url);
+                                            
+                                        });
+                console.log(results.map(p => p.name))
+                console.log(">> Done");
+                console.timeEnd()// here assuming you have a constant internet connc the concurrency(2) will give a time of 2-3 sec and a concurrency(10) would give less than 2 sec
     }catch(err){
     console.error(err);
 }})();
