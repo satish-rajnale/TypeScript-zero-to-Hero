@@ -6,7 +6,8 @@
   "author": "Satish rajnale",
   "scripts": {
     "type-coverage": "type-coverage",
-    "execute-a-file": "npx ts-node FILENAME"
+    "execute-a-file": "npx ts-node FILENAME",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
