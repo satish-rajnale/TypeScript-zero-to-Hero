@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-
+import PromisePool from "@supercharge/promise-pool"
 interface PokemonResults {
     count: number;
     next?: string;
@@ -106,9 +106,18 @@ const getFirstPokemon = async (): Promise<Pokemon> =>
         // }, Promise.resolve(undefined));
 
         //using promise.all
-       const data = await Promise.all(list.results.map((pokemon) => getPokemon(pokemon.url)));
-       console.log(data);
-        console.log(">> Done")
+    //    const data = await Promise.all(list.results.map((pokemon) => getPokemon(pokemon.url)));
+    //    console.log(data);
+    //     console.log(">> Done")
+
+        // using promise pooling
+        const {results, errors} = await PromisePool 
+                                        .withConcurrency(2)
+                                        .for(list.results)
+                                        .process(async data => { //cmd k + i on data to see its type def
+                                            const pokemon = await getPokemon(data.url);
+                                            return pokemon;
+                                        })
 
     }catch(err){
     console.error(err);
