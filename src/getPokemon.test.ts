@@ -19,7 +19,7 @@ describe("getPokemonList", function(){
 describe("getPokemonList", function(){
     it("should get list", async ()=>{
       const list = await  getPokeList();
-      
+
         console.log("running test getpokemonlist");
         expect(list.results[0].name).toBe("bulbasaur");
             
