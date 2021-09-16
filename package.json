@@ -20,6 +20,7 @@
     "@supercharge/promise-pool": "^1.7.0",
     "@types/node-fetch": "^2.5.10",
     "node-fetch": "^2.6.1",
+    "reflect-metadata": "^0.1.13",
     "type-coverage": "^2.17.5"
   }
 }
