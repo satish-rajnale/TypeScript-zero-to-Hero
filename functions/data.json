@@ -1,1 +1,7 @@
-[]
+{
+    "results": [{
+                "id":4,
+                "name":"string",
+                "job":"string"
+            }]
+}
