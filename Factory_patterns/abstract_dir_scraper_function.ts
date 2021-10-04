@@ -7,8 +7,8 @@ interface IFileReader {
 };
 
 
-const directoryScraper = ( dirPath: string,  fileReader: IFileReader) =>  {
-    return fs.readdirSync(dirPath)
+const createDirectoryScraper = (fileReader: IFileReader) =>  {
+    return (dirPath: string) =>  fs.readdirSync(dirPath)
     .reduce<Record<string, unknown>>((acc: Record<string, unknown>, file: string) => {
         if(fileReader.isJSONfile(file)){
             acc[file] = fileReader.readJSON(`${dirPath}/${file}`);
@@ -39,7 +39,7 @@ const fileReader: IFileReader = {
     }
 };
 
-
-const output = directoryScraper("./data", fileReader);
+const dirScraper = createDirectoryScraper(fileReader)
+const output = dirScraper("./data");
 console.log(output);
 
