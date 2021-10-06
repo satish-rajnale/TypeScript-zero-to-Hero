@@ -1,4 +1,5 @@
-interface Pokeomn {
+
+interface Pokemon {
   id: string;
   attack: number;
   defense: number;
@@ -7,13 +8,13 @@ interface Pokeomn {
 interface BaseRecord {
   id: string;
 }
-
+//@ts-ignore
 interface Database<T extends BaseRecord> {
   set(newVal: T): void;
   get(id: string): T | undefined;
 }
-
-class InMemoryDatabse<T extends BaseRecord> implements Database<T> {
+//@ts-ignore
+class InMemoryDatabse<T extends BaseRecord> implements Database< T> {
   private db: Record<string, T> = {};
 
   public set(newVal: T): void {
@@ -23,3 +24,13 @@ class InMemoryDatabse<T extends BaseRecord> implements Database<T> {
     return this.db[id];
   }
 }
+
+
+const pokemonDB = new InMemoryDatabse<Pokemon>();
+pokemonDB.set({
+    id:"pikachu",
+    attack:54,
+    defense: 20
+});
+
+console.log(pokemonDB.get("pikachu"));
