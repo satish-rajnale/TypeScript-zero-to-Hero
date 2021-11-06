@@ -11,3 +11,11 @@ Typescript aims at providing long term gain for small constribution in type defi
 Typescript can be added by using npm and including a typeconfig.js file in you project files.Just make sure anything you use like react or node or any external modules must have a proper supportive type defined dependancy added in package.json file.
 
 >Some libraries (e.g. Axios) provide a wrapper function that is already defined as it willl return a data variable as a JSON. But maybe if your response is also gives you a data parameter that has different values you want. Supppose the response you get from server is like this 
+```json
+data: {
+  data : {
+    ...actual information
+  }
+}
+```
+>then typescript does not allows a different data variable accessed from that response in strict mode. 
