@@ -18,4 +18,4 @@ data: {
   }
 }
 ```
->then typescript does not allows a different data variable accessed from that response in strict mode. 
+>then typescript does not allows a different data variable accessed from that response in strict mode. You might disable typescript type checking using a comment as //@ts-ignore. But a better way could also be to make a type/interface that resembles your response structure.
