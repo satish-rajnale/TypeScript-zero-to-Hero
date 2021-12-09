@@ -40,3 +40,25 @@ cs.execute(new Addone());
 console.log(cs.state);
 cs.undo();
 console.log(cs.state);
+
+class SetValue extends Command<number> {
+  private originalValue?: number;
+  constructor(private value: number) {
+    super();
+  }
+  execute(state: number) {
+    this.originalValue = state;
+    return this.value;
+  }
+
+  undo(state: number) {
+    return this.originalValue!;
+  }
+}
+
+const myval = new CommandStack<number>(0);
+console.log(myval.state);
+myval.execute(new SetValue(30));
+console.log(myval.state);
+myval.undo();
+console.log(myval.state);
