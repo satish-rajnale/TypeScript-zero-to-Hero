@@ -23,41 +23,19 @@ function createCommandStack<State>(_state: State) {
   };
 }
 
-class Addone extends Command<number> {
-  execute(state: number) {
-    return state + 1;
-  }
+const addOne: CommandFunction<number> = (state) => [
+  state + 1,
+  (state) => state - 1,
+];
+const cstack = createCommandStack(0);
+console.log(cstack.execute(addOne));
+console.log(cstack.undo());
 
-  undo(state: number) {
-    return state - 1;
-  }
-}
-
-const cs = new CommandStack<number>(0);
-console.log(cs.state);
-cs.execute(new Addone());
-console.log(cs.state);
-cs.undo();
-console.log(cs.state);
-
-class SetValue extends Command<number> {
-  private originalValue?: number;
-  constructor(private value: number) {
-    super();
-  }
-  execute(state: number) {
-    this.originalValue = state;
-    return this.value;
-  }
-
-  undo(state: number) {
-    return this.originalValue!;
-  }
-}
-
-const myval = new CommandStack<number>(0);
-console.log(myval.state);
-myval.execute(new SetValue(30));
-console.log(myval.state);
-myval.undo();
-console.log(myval.state);
+const createSetValue = (value: number): CommandFunction<number> => {
+  return (state) => {
+    const originalValue = state;
+    return [value, () => originalValue];
+  };
+};
+const setTo23 = createSetValue(23);
+console.log(cstack.execute(setTo23));
