@@ -1,8 +1,8 @@
-abstract class Command<State> {
+abstract class SysCommand<State> {
   abstract execute(state: State): State;
 }
 
-class CommandStack<State> {
+class CommandMementoStack<State> {
   private stack: string[] = [];
   constructor(private _state: State) {
     this.stack.push(JSON.stringify(_state));
@@ -12,47 +12,43 @@ class CommandStack<State> {
     return JSON.parse(this.stack[this.stack.length - 1]);
   }
 
-  execute(command: Command<State>) {
+  execute(command: SysCommand<State>) {
     const stringState = JSON.stringify(command.execute(this._state));
     this.stack.push(stringState);
   }
 
   undo() {
-      if(this.stack.length > 1){
-this.stack.pop();
-      }
-    const command = 
-    if (command) {
-      this._state = command.undo(this._state);
+    if (this.stack.length > 1) {
+      this.stack.pop();
     }
   }
 }
 
-class Addone extends Command<number> {
+class AddoneCommand extends SysCommand<number> {
   execute(state: number) {
     return state + 1;
   }
 }
 
-const cs = new CommandStack<number>(0);
-console.log(cs.state);
-cs.execute(new Addone());
-console.log(cs.state);
-cs.undo();
-console.log(cs.state);
+const cms = new CommandMementoStack<number>(0);
+console.log(cms.state);
+cms.execute(new AddoneCommand());
+console.log(cms.state);
+cms.undo();
+console.log(cms.state);
 
-class SetValue extends Command<number> {
-  constructor(private value: number) {
+class SetValueIN extends SysCommand<string> {
+  constructor(private value: string) {
     super();
   }
-  execute(state: number) {
+  execute(state: string) {
     return this.value;
   }
 }
 
-const myval = new CommandStack<number>(0);
-console.log(myval.state);
-myval.execute(new SetValue(30));
-console.log(myval.state);
-myval.undo();
-console.log(myval.state);
+const newval = new CommandMementoStack<string>('Ï was first');
+console.log(newval.state);
+newval.execute(new SetValueIN('Got replaced'));
+console.log(newval.state);
+newval.undo();
+console.log(newval.state);
