@@ -12,8 +12,8 @@ function createNewCommandStack<State>(_state: State) {
     },
 
     undo() {
-      if (this.stack.length > 1) {
-        this.stack.pop();
+      if (stack.length > 1) {
+        stack.pop();
       }
       return JSON.parse(stack[stack.length - 1]);
     },
